@@ -1,0 +1,13 @@
+1495372707155	Rename method 'me'
+1495373340652	Rename method 'stype'
+1495383812051	Delete element
+1495383820558	Rename type 'BaseTest'
+1495386084021	Delete element
+1495386091107	Delete element
+1495389449735	Convert local variable 'workbook' to field
+1495390370295	Convert local variable 'workbook' to field
+1495394005710	Delete element
+1495394158176	Convert local variable 'wb' to field
+1495394162289	Convert local variable 'data' to field
+1495395204616	Convert local variable 'workbook' to field
+1495397042150	Convert local variable 'workbook' to field

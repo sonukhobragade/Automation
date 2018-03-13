@@ -1,0 +1,14 @@
+package com.name.practice;
+
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class Selenium {
+
+	public static void main(String[] args) {
+
+		System.setProperty("webdriver.gecko.driver", "src/main/resources/Driver/geckodriver.exe");
+		FirefoxDriver driver = new FirefoxDriver();
+		
+	}
+
+}

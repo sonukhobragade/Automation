@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="1" guice-stage="DEVELOPMENT" name="Failed suite [FirstTestSuite]" parallel="tests">
+  <parameter name="browser" value="Firefox"/>
+  <listeners>
+    <listener class-name="com.name.base.TestListner"/>
+    <listener class-name="com.name.base.ExtentReporterNG"/>
+  </listeners>
+  <test name="Emaktab(failed)" parallel="tests">
+    <classes>
+      <class name="com.name.test.EmaktabLoginTest">
+        <methods>
+          <include name="setUpClass"/>
+          <include name="methodSetUp"/>
+          <include name="LoginEmaktabTest"/>
+          <include name="methodTearDown"/>
+        </methods>
+      </class> <!-- com.name.test.EmaktabLoginTest -->
+      <class name="com.name.test.AddDesignationTest">
+        <methods>
+          <include name="LoginEmaktabTest"/>
+          <include name="setUpClass"/>
+          <include name="methodSetUp"/>
+          <include name="AddDesgination"/>
+          <include name="methodTearDown"/>
+        </methods>
+      </class> <!-- com.name.test.AddDesignationTest -->
+    </classes>
+  </test> <!-- Emaktab(failed) -->
+</suite> <!-- Failed suite [FirstTestSuite] -->

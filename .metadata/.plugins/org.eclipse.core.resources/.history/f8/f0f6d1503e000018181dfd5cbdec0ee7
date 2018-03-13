@@ -1,0 +1,12 @@
+package practiveTest;
+
+public class ClassInterface implements InterfaceEg{
+
+	public static void main(String[] args) {
+		InterfaceEg.method2();
+	}
+	@Override
+	public void method1() {
+		System.out.println("Method 1");
+	}
+}

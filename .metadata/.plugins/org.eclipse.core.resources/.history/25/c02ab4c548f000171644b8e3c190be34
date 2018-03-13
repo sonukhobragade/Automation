@@ -1,0 +1,39 @@
+package com.name.test;
+
+import java.util.HashMap;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.name.base.BaseTestObject;
+import com.name.base.ExcelReader;
+import com.name.base.PropertiesUtils;
+import com.name.pages.EmaktabLoginPage;
+
+public class EmaktabLoginTest extends BaseTestObject<EmaktabLoginTest>{
+	
+	PropertiesUtils pu = new PropertiesUtils();
+	ExcelReader excelReader = new ExcelReader();
+		
+	@DataProvider(name = "TestData")
+	public Object[][] loginData() {
+		Object[][] arrayObject = excelReader.getRowDataMap(pu.getValue("ExcelFile"), pu.getValue("SheetName"));
+		return arrayObject;
+	}
+
+	@Test(dataProvider = "TestData")
+	public void LoginEmaktabTest(HashMap<String, Object> rowMap) {
+		EmaktabLoginPage EmakLogin = new EmaktabLoginPage(driver);
+		
+		EmakLogin.openLogInPage();
+		System.out.println(rowMap.get("UserName"));
+		System.out.println(rowMap.get("No"));
+		System.out.println(rowMap.get("Firm"));
+		System.out.println(rowMap.get("Branch"));
+		
+		EmakLogin.enterUserNamePassWord((String) rowMap.get("UserName"), (String)rowMap.get("No"));
+		EmakLogin.selectFirmDropDown((String) rowMap.get("Firm"));		
+		EmakLogin.selectBranchDropDown((String)rowMap.get("Branch"));
+		EmakLogin.pushSignInButton();
+	}
+}

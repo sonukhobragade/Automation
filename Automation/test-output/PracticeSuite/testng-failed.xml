@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="1" guice-stage="DEVELOPMENT" name="Failed suite [PracticeSuite]" parallel="tests">
+  <parameter name="browser" value="Firefox"/>
+  <listeners>
+    <listener class-name="com.name.base.TestListner"/>
+    <listener class-name="com.name.base.ExtentReporterNG"/>
+  </listeners>
+  <test name="PracticeTest(failed)" parallel="tests">
+    <classes>
+      <class name="com.name.practice.PracticeTest">
+        <methods>
+          <include name="setUpClass"/>
+          <include name="methodSetUp"/>
+          <include name="PractTest" invocation-numbers="0"/>
+          <include name="methodTearDown"/>
+        </methods>
+      </class> <!-- com.name.practice.PracticeTest -->
+    </classes>
+  </test> <!-- PracticeTest(failed) -->
+</suite> <!-- Failed suite [PracticeSuite] -->

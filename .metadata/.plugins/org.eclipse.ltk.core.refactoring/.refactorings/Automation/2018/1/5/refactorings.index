@@ -1,0 +1,7 @@
+1517211231920	Convert local variable 'reader' to field
+1517310559983	Rename package 'practiveTest'
+1517310804946	Rename method 'rightClickAdmin'
+1517319310742	Rename method 'rightClickCasesWidget'
+1517405251408	Delete element
+1517405276705	Move 'log4j.properties' to 'Log4j'
+1517405321582	Move 'extent-config.xml' to 'Extent-Config'

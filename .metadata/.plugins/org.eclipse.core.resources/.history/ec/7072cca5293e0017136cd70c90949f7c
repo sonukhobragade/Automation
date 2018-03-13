@@ -1,0 +1,69 @@
+package com.name.base;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class BasePageObject<T> {
+	
+	protected WebDriver driver;
+	protected WebDriverWait wait;
+	private static final int DEFAULT_TIMEOUT = 100;
+	
+	protected BasePageObject (WebDriver driver) {
+		this.driver = driver;	
+		wait = new WebDriverWait(driver, 40);
+	}
+
+	protected T getPage(String url) {
+		driver.get(url);
+		return obj();
+	}
+	
+	protected void enter(String text, By locator) {
+		find(locator).sendKeys(text);
+	}
+
+	private WebElement find(By locator) {
+		return driver.findElement(locator);
+	}
+	
+	protected void click(By locator) {
+		find(locator).click();
+	}
+	
+	protected String getTitle() {
+		return driver.getTitle();
+	}
+	
+	protected String getText(By locator) {
+		return find(locator).getText();
+	}
+
+ 	protected T wait_until(ExpectedCondition<WebElement> condition) {
+    	verify(condition);
+        return obj();
+    } 
+ 	
+    @SuppressWarnings("hiding")
+    protected <T> T verify(ExpectedCondition<T> condition) {
+        return verify(condition, 30, DEFAULT_TIMEOUT);
+    }
+
+    @SuppressWarnings("hiding")
+    protected <T> T verify(ExpectedCondition<T> condition, long timeout, long sleep) {
+        return new WebDriverWait(this.driver, timeout, sleep).until(condition);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected T obj() {
+        return (T) this;
+    }
+	
+	
+	
+	
+	
+}

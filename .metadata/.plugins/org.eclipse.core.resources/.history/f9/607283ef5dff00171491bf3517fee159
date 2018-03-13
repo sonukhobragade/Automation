@@ -1,0 +1,20 @@
+package com.name.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+import com.name.base.BasePageObject;
+
+public class DesignationPage extends BasePageObject<DesignationPage> {
+
+	public DesignationPage(WebDriver driver) {
+		super(driver);
+	}
+	
+	private By AddNewLink = By.xpath("//i[@title='Add New']");
+	
+	public void clickAddNewLink() {
+		click(AddNewLink);
+		wait_until(2);
+	}
+}

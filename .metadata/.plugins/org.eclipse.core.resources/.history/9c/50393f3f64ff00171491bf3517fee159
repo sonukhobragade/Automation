@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="FirstTestSuite" verbose="1" parallel="tests"
+	thread-count="1">
+
+	<!-- <listeners> <listener class-name="com.name.base.TestListner"></listener> 
+		</listeners> <parameter name="browser" value="FIREFOX"></parameter> <test 
+		name="Positive Test-FF"> <classes> <class name="com.name.test.LogInTest"></class> 
+		<class name="com.name.test.LogInTest"> </class> </classes> </test> -->
+
+	<listeners>
+		<listener class-name="com.name.base.TestListner"></listener>
+		<listener class-name="com.name.base.ExtentReporterNG" />
+	</listeners>
+
+	<parameter name="browser" value="Firefox"></parameter>
+	<test name="Emaktab Login">
+		<classes>
+			<class name="com.name.test.EmaktabLoginTest">
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="Positive Test-CH"> <parameter name="browser" value="chrome"></parameter> 
+		<classes> <class name="com.name.test.LogInTest"> </class> </classes> </test> -->
+</suite>

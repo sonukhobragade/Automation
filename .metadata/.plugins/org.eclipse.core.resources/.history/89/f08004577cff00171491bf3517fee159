@@ -1,0 +1,330 @@
+package com.name.base;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+public abstract class BasePageObject<T> {
+	
+	protected WebDriver driver;
+	protected WebDriverWait wait;
+	private static final int DEFAULT_TIMEOUT = 60;
+	
+	protected BasePageObject (WebDriver driver) {
+		this.driver = driver;	
+		wait = new WebDriverWait(driver, 40);
+	}
+
+	protected T getPage(String url) {
+		driver.get(url);
+		return obj();
+	}
+	
+	//Old Method
+	protected void enter(String text, By locator) {
+		find(locator).sendKeys(text);
+	}
+	//Old Method
+	private WebElement find(By locator) {
+		return driver.findElement(locator);
+	}
+	
+	//Old Method
+/*	protected void click(By locator) {
+		find(locator).click();
+	}*/
+	
+	//Old Method
+	protected String getTitle() {
+		return driver.getTitle();
+	}
+	
+	//Old Method
+	protected String getText(By locator) {
+		return find(locator).getText();
+	}
+
+ 	protected T wait_until(ExpectedCondition<WebElement> condition) {
+    	verify(condition);
+        return obj();
+    } 
+ 	
+ 	public T wait_until(int sleepInSecs) {
+    	try {
+    	Thread.sleep(sleepInSecs*1000);
+    	}
+    	catch(IllegalArgumentException | InterruptedException ie) {
+    		Assert.fail("Unable to wait for the given time(in secs): " + sleepInSecs );
+    	}
+    	return obj();
+    }
+ 	
+ 	public T verify_element(By locator, String expectedResult) throws Error {
+ 		try {
+        String ActualResult = verify(ExpectedConditions.presenceOfElementLocated(locator)).getText();
+        Assert.assertEquals(ActualResult, expectedResult);
+ 		}
+ 		catch (Exception e) {
+		}
+        return obj();
+    }
+	
+	public T verify_page_title() throws Error {
+        verify(ExpectedConditions.titleIs(getTitle()));
+        return obj();
+    }
+	
+	public T enter(By locator, String text) {
+    	WebElement textField = findElement(locator); 
+        textField.clear();
+        try {
+            textField.sendKeys(text);
+        }
+        catch (StaleElementReferenceException ex) {
+            textField = findElement(locator);
+            textField.sendKeys(text);
+        }
+        return obj();
+    }
+	
+	public T browse_file(String filePath) {
+        Robot robot = null;
+		        try {
+			robot = new Robot();
+		} catch (AWTException e) {
+			Assert.fail("Unable to browse the file, path is: " + filePath);
+		}
+        StringSelection ss = new StringSelection(filePath);  
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+        wait_until(5);
+        robot.keyPress(KeyEvent.VK_CONTROL);    
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_CONTROL); 
+        wait_until(2);
+        robot.keyPress(KeyEvent.VK_ENTER);  
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        wait_until(5);
+        return obj();
+    }
+	
+	public T click_button(By locator) {
+    	click(locator);
+    	return obj();
+    }
+
+    public T click_link(By locator) {
+    	click(locator);
+    	return obj();
+    }
+    
+    public T click_tab(By locator) {
+    	click(locator);
+        return obj();
+    }
+    
+    public T click_popup(By locator) {
+    	click(locator);
+        return obj();
+    }
+         
+    public T submit(By locator) {
+        WebElement submittable = findElement(locator);
+        submittable.submit();
+        return obj();
+    }
+
+    public T select_by_value(By locator, String value) {
+    	Select selectable = findSelect(locator);
+        selectable.selectByValue(value);
+        return obj();
+    }
+    
+    public T select_by_name(By locator, String name) {
+    	Select selectable = findSelect(locator);
+        selectable.selectByVisibleText(name);
+        return obj();
+    }
+    
+    public T deselect_all(By locator) {
+    	Select selectable = findSelect(locator);
+        selectable.deselectAll();
+        return obj();
+    }
+	
+	protected T alert_comments(String text) {
+    	this.driver.switchTo().alert().sendKeys(text);
+    	return obj();
+    }
+
+    protected T alert_accept() {
+    	this.driver.switchTo().alert().accept();
+    	return obj();
+    }
+    
+    protected T alert_cancel() {
+    	this.driver.switchTo().alert().dismiss();
+    	return obj();
+    }
+    
+	protected String find_element_attribute_value(By locator, String attributeName) {
+  		return findElement(locator).getAttribute(attributeName);
+  	}
+  	
+  	public String find_element_text(By locator) {
+  		return findElement(locator).getText();
+  	}
+	
+	public int find_element_count(By locator) {
+		return driver.findElements(locator).size();
+  	}
+	public String find_current_url() {
+  		return this.driver.getCurrentUrl();
+  	}
+  	
+	public T verify_element_selected(By locator) {
+ 	  	  verify(ExpectedConditions.elementToBeSelected(locator));
+ 	  	  return obj();
+ 	}
+ 	
+ 	public Boolean is_element_selected(By locator) {
+ 		  WebElement element = findElement(locator);
+ 		  return element.isSelected();
+	}
+ 	
+ 	public Boolean is_element_displayed(By locator) {
+		  return driver.findElement(locator).isDisplayed();
+	}
+ 	
+	public Boolean is_element_exist(By locator) {
+		List<WebElement> elements = driver.findElements(locator);
+		if (elements.size() > 0) {
+			return Boolean.TRUE;
+		}
+		else {
+			return Boolean.FALSE;
+		}
+	}
+	
+	public T verify_element_by_text (By locator, String text) {
+        verify(ExpectedConditions.textToBePresentInElementLocated(locator, text));
+        return obj();
+    }
+	
+	public T verify_element_attribute_value(By locator, String attrName, String attrValue) {
+        WebElement element = findElement(locator);
+        Assert.assertEquals(element.getAttribute(attrName), attrValue);
+        return obj();
+    }
+    
+    public void refresh_page() {
+    	driver.navigate().refresh();
+    }
+    
+    protected T clear_session() {
+    	driver.manage().deleteAllCookies();
+    	return obj();
+    }
+    
+    public T switch_to_frame(String nameOrId) {
+    	verify(ExpectedConditions.frameToBeAvailableAndSwitchToIt(nameOrId));
+    	return obj();
+    }
+    
+    public T switch_to_frame(By locator) {
+    	verify(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
+    	return obj();
+    }
+    
+    public T switch_to_root_page() {
+    	driver.switchTo().defaultContent();
+    	return obj();
+    }
+    
+    protected T mousehover(By locator) {
+    	Actions mouseover = new Actions(driver);
+    	mouseover.moveToElement(findElement(locator)).build().perform();
+    	return obj();
+    }
+    
+    protected T drag_n_drop(By source, By target) {
+    	new Actions(driver).dragAndDrop(findElement(source), findElement(target)).perform();
+    	return obj();
+    }
+	
+	protected T click(By locator) {
+        WebElement clickable = findElement(ExpectedConditions.elementToBeClickable(locator));
+        clickable.click();
+        return obj();
+    }
+	
+	/*
+	 * Command Use for Scroll Right
+	 * In Testing Phase
+	 *  */
+	protected T scroll_right() {
+		 ((JavascriptExecutor) driver).executeScript("window.scrollBy(2000,0)");
+		return obj();
+	}
+  	
+	/**
+     * Check the Select element is clickable and wait until loaded (i.e. size is > 1).
+     * @param locator (web element locator)
+     * @return Select.
+     */
+    private Select findSelect(By locator) {
+    	final Select selectable = new Select(findElement(ExpectedConditions.elementToBeClickable(locator)));
+        
+    	verify(new ExpectedCondition<Boolean>() {
+        	
+			@Override
+			public Boolean apply(WebDriver driver) {
+			    return selectable.getOptions().size() > 1;
+			}
+			
+			@Override
+	    	public String toString() {
+	    		return String.format("element (%s) size > 1", selectable);
+	    	} 
+        });
+        return selectable;
+    }
+    
+    private WebElement findElement(ExpectedCondition<WebElement> condition) {
+        return verify(condition);
+    }
+ 	
+	private WebElement findElement(By locator) {
+        return verify(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+ 	
+    @SuppressWarnings("hiding")
+    protected <T> T verify(ExpectedCondition<T> condition) {
+        return verify(condition, 30, DEFAULT_TIMEOUT);
+    }
+
+    @SuppressWarnings("hiding")
+    protected <T> T verify(ExpectedCondition<T> condition, long timeout, long sleep) {
+        return new WebDriverWait(this.driver, timeout, sleep).until(condition);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected T obj() {
+        return (T) this;
+    }
+}

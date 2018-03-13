@@ -1,0 +1,9 @@
+package practiveTest;
+
+public interface InterfaceEg {
+	
+	interface int xyz() {
+		
+	}
+
+}

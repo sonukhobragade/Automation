@@ -1,0 +1,10 @@
+package practiveTest;
+
+public interface InterfaceEg {
+	
+	static void xyz() {
+		System.out.println("asd");
+		
+	}
+
+}

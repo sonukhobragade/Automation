@@ -1,0 +1,31 @@
+package com.name.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+import com.name.base.BasePageObject;
+
+public class DesignationPage extends BasePageObject<DesignationPage> {
+
+	public DesignationPage(WebDriver driver) {
+		super(driver);
+	}
+	
+	private By addNewLink = By.xpath("//i[@title='Add New']");
+	private By savebutton = By.xpath("//i[@class='a-icon-save']");
+	private By successMsg = By.xpath("//div[@id=\"success\"]/div");
+	
+	public void clickAddNewLink() {
+		click(addNewLink);
+		wait_until(2);
+	}
+	
+	public void saveButton() {
+		click(savebutton);
+	}
+	
+	public void verifySucessMsg(String expectedResult) {
+		wait_until(3);
+		verify_element(successMsg, expectedResult)
+	}
+}

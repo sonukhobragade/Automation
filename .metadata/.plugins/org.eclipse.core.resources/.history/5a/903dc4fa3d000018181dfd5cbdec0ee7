@@ -1,0 +1,11 @@
+package practiveTest;
+
+public class ClassInterface implements InterfaceEg{
+
+	@Override
+	public void method1() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
