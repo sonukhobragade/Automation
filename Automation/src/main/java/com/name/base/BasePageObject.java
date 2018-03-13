@@ -56,7 +56,7 @@ public abstract class BasePageObject<T> {
 		return driver.getTitle();
 	}
 
-	// Old Method 
+	// Old Method
 	protected String getText(By locator) {
 		return find(locator).getText();
 	}
