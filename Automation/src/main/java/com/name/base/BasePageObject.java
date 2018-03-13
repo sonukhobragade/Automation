@@ -21,7 +21,7 @@ import org.testng.Assert;
 
 public abstract class BasePageObject<T> {
 
-	// Instance Variables
+	// Instance Variables 
 	protected WebDriver driver;
 	protected WebDriverWait wait;
 
